@@ -52,12 +52,13 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
         height: '100%',
         scrolling: 'yes',
         marginheight: '0',
-        marginwidth: '0'
+        marginwidth: '0',
+        css: {
+          display: i > 0 ? 'none' : 'block'
+        }
       });
 
-      if (i > 0) {
-        iframe.hide();
-      } else {
+      if (i === 0) {
         button.addClass('active');
       }
 
