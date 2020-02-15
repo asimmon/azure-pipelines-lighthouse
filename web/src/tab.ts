@@ -253,10 +253,11 @@ class ReleaseLighthouseTab extends BaseLighthouseTab {
   }
 }
 
+const bodyEl = $('body');
 if (typeof VSS.getConfiguration().onBuildChanged === 'function') {
-  BuildLighthouseTab.enhance(BuildLighthouseTab, $('body'), {});
+  BuildLighthouseTab.enhance(BuildLighthouseTab, bodyEl, {});
 } else if (typeof VSS.getConfiguration().releaseEnvironment === 'object') {
-  ReleaseLighthouseTab.enhance(ReleaseLighthouseTab, $('body'), {});
+  ReleaseLighthouseTab.enhance(ReleaseLighthouseTab, bodyEl, {});
 }
 
 interface ILighthouseReport {
