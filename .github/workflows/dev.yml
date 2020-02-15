@@ -16,7 +16,7 @@ jobs:
           node-version: 12.x
 
       - name: Install NPM dependencies
-        run: npm ci
+        run: npm ci 
 
       - name: Update extension information
         run: npm run bump-version -- --token ${{ secrets.marketplace_access_token }} --release-type dev
