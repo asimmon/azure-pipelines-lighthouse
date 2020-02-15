@@ -48,21 +48,19 @@
         const buttons = $('#tabs > button');
         const iframes = $('#reports > iframe');
 
-        selectedButton = $(selectedButton);
-
         buttons.each((i, button) => {
-          button.removeClass('active');
+          button.className = '';
 
-          if (button.is(selectedButton)) {
-            button.addClass('active');
+          if (button.isSameNode(selectedButton)) {
+            button.className = 'active';
           }
         });
 
         iframes.each((i, iframe) => {
-          iframe.removeClass('active');
+          iframe.className = '';
 
-          if (iframe.prop('id') === reportInternalName) {
-            iframe.addClass('active');
+          if (iframe.id === reportInternalName) {
+            iframe.className = 'active';
           }
         });
       }
