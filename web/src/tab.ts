@@ -57,14 +57,11 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
 
       if (i === 0) {
         button.addClass('active');
+        iframe.addClass('active');
       }
 
       buttons.append(button);
       iframes.append(iframe);
-
-      if (i > 0) {
-        iframe.hide();
-      }
     }
 
     this.setOverlayText('');

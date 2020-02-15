@@ -53,11 +53,14 @@
         });
 
         iframes.each((i, iframe) => {
-          iframe.hide();
+          if (iframe.prop('id') === reportInternalName) {
+            iframe.addClass('active');
+          } else {
+            iframe.removeClass('active');
+          }
         });
 
         selectedButton.addClass('active');
-        $(document.getElementById(reportInternalName)).show();
       }
     </script>
 
@@ -100,6 +103,14 @@
       #reports {
         height: 100%;
         padding-bottom: 50px;
+      }
+
+      #reports iframe {
+        display: none;
+      }
+
+      #reports iframe.active {
+        display: block;
       }
     </style>
   </head>
