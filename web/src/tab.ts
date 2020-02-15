@@ -27,7 +27,23 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
     return groups && groups.length === 2 ? groups[1] : filename;
   }
 
+  private fixDisplayNameReports(reports: ILighthouseReport[]) {
+    const displayNameCounters: Record<string, number> = {};
+
+    for (const report of reports) {
+      if (!displayNameCounters[report.displayName]) displayNameCounters[report.displayName] = 0;
+
+      const count = ++displayNameCounters[report.displayName];
+
+      if (count > 1) {
+        report.displayName = `${report.displayName} (${count})`;
+      }
+    }
+  }
+
   protected displayReports(reports: ILighthouseReport[]) {
+    this.fixDisplayNameReports(reports);
+
     const container = this.getElement();
     const buttons = container.find('#tabs');
     const iframes = container.find('#reports');
@@ -118,7 +134,7 @@ class BuildLighthouseTab extends BaseLighthouseTab {
       BaseLighthouseTab.ATTACHMENT_TYPE
     );
 
-    const reports = new Array<ILighthouseReport>();
+    const reports: ILighthouseReport[] = [];
 
     for (const attachment of attachments) {
       if (attachment && attachment._links && attachment._links.self && attachment._links.self.href) {
@@ -193,7 +209,7 @@ class ReleaseLighthouseTab extends BaseLighthouseTab {
       throw new Error('There are no plan IDs');
     }
 
-    const reports = new Array<ILighthouseReport>();
+    const reports: ILighthouseReport[] = [];
 
     for (const runPlanId of runPlanIds) {
       const attachments = await rmClient.getTaskAttachments(
