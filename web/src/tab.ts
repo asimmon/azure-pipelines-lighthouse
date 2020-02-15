@@ -52,10 +52,7 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
         height: '100%',
         scrolling: 'yes',
         marginheight: '0',
-        marginwidth: '0',
-        css: {
-          display: i > 0 ? 'none' : 'block'
-        }
+        marginwidth: '0'
       });
 
       if (i === 0) {
@@ -64,6 +61,10 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
 
       buttons.append(button);
       iframes.append(iframe);
+
+      if (i > 0) {
+        iframe.hide();
+      }
     }
 
     this.setOverlayText('');
