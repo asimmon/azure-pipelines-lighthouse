@@ -35,8 +35,14 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
     buttons.empty();
     iframes.empty();
 
-    for (const report of reports) {
-      const button = `<button onclick="showReport(this, '${report.internalName}')">${report.displayName}</button>`;
+    for (let i = 0; i < reports.length; i++) {
+      const report = reports[i];
+
+      const button = $('<button/>', {
+        text: report.displayName
+      });
+
+      button.attr('onClick', `showReport(this, '${report.internalName}');`);
 
       const iframe = $('<iframe>', {
         srcdoc: report.html,
@@ -48,6 +54,12 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
         marginheight: '0',
         marginwidth: '0'
       });
+
+      if (i > 0) {
+        iframe.hide();
+      } else {
+        button.addClass('active');
+      }
 
       buttons.append(button);
       iframes.append(iframe);

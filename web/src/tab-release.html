@@ -45,19 +45,19 @@
       });
 
       function showReport(selectedButton, reportInternalName) {
-        const buttons = document.querySelectorAll('#tabs > button');
-        const iframes = document.querySelectorAll('#reports > iframe');
+        const buttons = $('#tabs > button');
+        const iframes = $('#reports > iframe');
 
-        for (let i = 0; i < buttons.length; i++) {
-          buttons[i].style['border'] = 'none';
-        }
+        buttons.each((i, button) => {
+          button.removeClass('active');
+        });
 
-        for (let i = 0; i < iframes.length; i++) {
-          iframes[i].style.display = 'none';
-        }
+        iframes.each((i, iframe) => {
+          iframe.hide();
+        });
 
-        selectedButton.style['border'] = '1px solid rgba(0,120,212,1)';
-        document.getElementById(reportInternalName).style.display = 'block';
+        selectedButton.addClass('active');
+        $(document.getElementById(reportInternalName)).show();
       }
     </script>
 
@@ -90,21 +90,26 @@
       }
 
       #tabs button {
-        margin: 5px;
+        margin: 5px 5px 5px 0;
       }
 
       #tabs button.active {
         border: 1px solid rgba(0, 120, 212, 1);
       }
+
+      #reports {
+        height: 100%;
+        padding-bottom: 50px;
+      }
     </style>
   </head>
 
   <body>
-    <div id="overlay" class="wide">
-      <p>Waiting for task results...</p>
-    </div>
-
     <div id="tabs"></div>
     <div id="reports"></div>
+
+    <div id="overlay">
+      <p>Waiting for task results...</p>
+    </div>
   </body>
 </html>
