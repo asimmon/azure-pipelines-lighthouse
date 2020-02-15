@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "name": "Lighthouse",
   "description": "Embed Google Lighthouse HTML result in Azure Pipelines",
-  "publisher": "GSoft",
+  "publisher": "AnthonySimmon",
   "author": "Anthony Simmon",
   "public": true,
   "galleryFlags": ["Public"],
@@ -141,6 +141,6 @@
   ],
   "repository": {
     "type": "git",
-    "uri": "https://github.com/gsoft-inc/azure-pipelines-lighthouse"
+    "uri": "https://github.com/asimmon/azure-pipelines-lighthouse"
   }
 }

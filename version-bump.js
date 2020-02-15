@@ -84,12 +84,12 @@ const run = async args => {
   console.log(`Updating extension information for ${args['release-type']}`);
 
   const settings = {
-    id: 'lighthouse-vsts',
-    name: 'Lighthouse',
-    publisher: 'GSoft',
+    id: 'lighthouse-vsts-asimmon',
+    name: 'Lighthouse Asimmon',
+    publisher: 'AnthonySimmon',
     version: { major: 1, minor: 0, patch: 0 },
-    galleryFlags: ['Public'],
-    public: true
+    galleryFlags: ['Preview'],
+    public: false
   };
 
   const prodVersion = await getPublishedVersion(args.token, settings.publisher, settings.id);
@@ -99,7 +99,7 @@ const run = async args => {
     case 'dev':
       settings.id += '-dev';
       settings.name += ' (dev)';
-      settings.publisher = 'gsoft-dev';
+      settings.publisher = 'AnthonySimmon';
       settings.galleryFlags = ['Preview'];
       settings.public = false;
 

@@ -4,8 +4,8 @@
     "postinstall": "cd task && npm install",
     "package": "rimraf *.vsix && tsc -p task && tsc -p web && tfx extension create --output-path PackageOutput",
     "bump-version": "node version-bump.js",
-    "publish": "tfx extension publish --publisher gsoft",
-    "publish:dev": "tfx extension publish --publisher gsoft-dev",
+    "publish": "tfx extension publish --publisher AnthonySimmon",
+    "publish:dev": "tfx extension publish --publisher AnthonySimmon",
     "test": "mocha task/test"
   },
   "husky": {
