@@ -30,7 +30,9 @@ Audit rules must be written on separate lines.
 
 Lighthouse for Azure Pipelines is not yet available on the Visual Studio Marketplace.
 
-## Audit included in Lighthouse 5.6.0
+## Available audits
+
+The following audits exist in Lighthouse 5.6.0. More may be added in the future.
 
 | Audit                              | Type    | Description                                                                                                                        |
 | ---------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
