@@ -289,7 +289,8 @@ export class LighthouseTask {
     execPath = await this.locallyInstallAndGetLighthouseExecPath();
     if (execPath) {
       console.log(`Locally installed Lighthouse found at ${execPath}`);
-      this.lighthouseCommand = taskLibrary.tool(execPath);
+      args.unshift(execPath);
+      this.lighthouseCommand = taskLibrary.tool(this.nodeExecPath);
       this.lighthouseCommand.arg(args);
       return;
     }
