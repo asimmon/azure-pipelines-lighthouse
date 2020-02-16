@@ -2,14 +2,12 @@ import TFS_Release_Contracts = require('ReleaseManagement/Core/Contracts');
 import RM_Client = require('ReleaseManagement/Core/RestClient');
 import TFS_Build_Contracts = require('TFS/Build/Contracts');
 import TFS_Build_Extension_Contracts = require('TFS/Build/ExtensionContracts');
-import TFS_DistributedTask_Contracts = require('TFS/DistributedTask/Contracts');
 import DT_Client = require('TFS/DistributedTask/TaskRestClient');
 import Controls = require('VSS/Controls');
 
 abstract class BaseLighthouseTab extends Controls.BaseControl {
   protected static readonly HUB_NAME = 'build';
   protected static readonly ATTACHMENT_TYPE = 'lighthouse_html_result';
-  protected static readonly ATTACHMENT_NAME = 'lighthouseresult';
 
   protected constructor() {
     super();
@@ -22,27 +20,13 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
   }
 
   protected extractHostnameFromReportFilename(filename: string): string {
-    const regex = /(.+)\-\d+\.report\.html/g;
+    const regex = /(.+)-\d+\.report\.html/g;
     const groups = regex.exec(filename);
     return groups && groups.length === 2 ? groups[1] : filename;
   }
 
-  private fixDisplayNameReports(reports: ILighthouseReport[]) {
-    const displayNameCounters: Record<string, number> = {};
-
-    for (const report of reports) {
-      if (!displayNameCounters[report.displayName]) displayNameCounters[report.displayName] = 0;
-
-      const count = ++displayNameCounters[report.displayName];
-
-      if (count > 1) {
-        report.displayName = `${report.displayName} (${count})`;
-      }
-    }
-  }
-
   protected displayReports(reports: ILighthouseReport[]) {
-    this.fixDisplayNameReports(reports);
+    this.fixIdenticalReportDisplayNames(reports);
 
     const container = this.getElement();
     const buttons = container.find('#tabs');
@@ -83,6 +67,20 @@ abstract class BaseLighthouseTab extends Controls.BaseControl {
     this.setOverlayText('');
   }
 
+  private fixIdenticalReportDisplayNames(reports: ILighthouseReport[]) {
+    const displayNameCounters: Record<string, number> = {};
+
+    for (const report of reports) {
+      if (!displayNameCounters[report.displayName]) displayNameCounters[report.displayName] = 0;
+
+      const count = ++displayNameCounters[report.displayName];
+
+      if (count > 1) {
+        report.displayName = `${report.displayName} (${count})`;
+      }
+    }
+  }
+
   protected setOverlayText(htmlStr: string) {
     const overlay = this.getElement().find('#overlay');
     const overlayText = overlay.find('p');
@@ -113,14 +111,13 @@ class BuildLighthouseTab extends BaseLighthouseTab {
 
   private async tryDisplayReports(build: TFS_Build_Contracts.Build) {
     try {
-      const reports = await this.loadReportsFromAttachments(build);
-      this.displayReports(reports);
+      await this.loadReportsFromAttachments(build);
     } catch (err) {
       this.setOverlayText(err.message);
     }
   }
 
-  private async loadReportsFromAttachments(build: TFS_Build_Contracts.Build): Promise<ILighthouseReport[]> {
+  private async loadReportsFromAttachments(build: TFS_Build_Contracts.Build): Promise<void> {
     const vsoContext: WebContext = VSS.getWebContext();
     const taskClient: DT_Client.TaskHttpClient = DT_Client.getClient();
 
@@ -162,7 +159,7 @@ class BuildLighthouseTab extends BaseLighthouseTab {
       throw new Error('There is no Lighthouse HTML result attachment');
     }
 
-    return reports;
+    this.displayReports(reports);
   }
 }
 
@@ -180,14 +177,13 @@ class ReleaseLighthouseTab extends BaseLighthouseTab {
 
   private async tryDisplayReports(releaseId: number, environmentId: number) {
     try {
-      const reports = await this.loadReportsFromAttachments(releaseId, environmentId);
-      this.displayReports(reports);
+      await this.loadReportsFromAttachments(releaseId, environmentId);
     } catch (err) {
       this.setOverlayText(err.message);
     }
   }
 
-  private async loadReportsFromAttachments(releaseId: number, environmentId: number): Promise<ILighthouseReport[]> {
+  private async loadReportsFromAttachments(releaseId: number, environmentId: number): Promise<void> {
     const rmClient = RM_Client.getClient() as RM_Client.ReleaseHttpClient;
     const vsoContext: WebContext = VSS.getWebContext();
 
@@ -249,7 +245,7 @@ class ReleaseLighthouseTab extends BaseLighthouseTab {
       throw new Error('There is no Lighthouse HTML result attachment');
     }
 
-    return reports;
+    this.displayReports(reports);
   }
 }
 
